@@ -3,9 +3,7 @@ package com.tcs.fortis.controller;
 import com.tcs.fortis.constants.TicTacToeConstants;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
@@ -92,21 +90,6 @@ public class TicTacToeControllerTest {
         ticTacToeController.dispose();
     }
 
-    @Test
-    public void playerShouldGetTieIfBoardIsFullWithNoWinAndResetWithTypeTrue() {
-
-        TicTacToeConstants.type = false;
-        TicTacToeConstants.showDialog = true;
-        tieGameEvents();
-        ticTacToeController.actionPerformed(actionEvent);
-
-        assertEquals(TicTacToeConstants.COMPUTER_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
-        ticTacToeController.resetThePlay.doClick();
-        ticTacToeController.setVisible(false);
-        ticTacToeController.dispose();
-    }
-
-
     private void tieGameEvents() {
         actionEvent.setSource(TicTacToeConstants.positions[0]);
         ticTacToeController.actionPerformed(actionEvent);
@@ -125,20 +108,6 @@ public class TicTacToeControllerTest {
         actionEvent.setSource(TicTacToeConstants.positions[6]);
         ticTacToeController.actionPerformed(actionEvent);
         actionEvent.setSource(TicTacToeConstants.positions[7]);
-    }
-
-    @Test
-    public void playerShouldGetTieIfBoardIsFullWithNoWinWithShowDialogTrue() {
-
-
-        TicTacToeConstants.showDialog = true;
-        tieGameEvents();
-        ticTacToeController.actionPerformed(actionEvent);
-
-        assertEquals(TicTacToeConstants.MATCH_TIE, ticTacToeController.ticTacToeResponse.getResponse());
-
-        ticTacToeController.setVisible(false);
-        ticTacToeController.dispose();
     }
 
     @Test
@@ -192,16 +161,6 @@ public class TicTacToeControllerTest {
         ticTacToeController.dispose();
     }
 
-    @Test
-    public void playerShouldWinForDiagonalWithShowDialogTrue() {
-
-        TicTacToeConstants.showDialog = true;
-        playerOneDiagonalEvents();
-
-        assertEquals(TicTacToeConstants.PLAYER1_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
-        ticTacToeController.setVisible(false);
-        ticTacToeController.dispose();
-    }
 
     private void playerOneDiagonalEvents() {
         actionEvent.setSource(TicTacToeConstants.positions[0]);
@@ -246,17 +205,6 @@ public class TicTacToeControllerTest {
         actionEvent.setSource(TicTacToeConstants.positions[8]);
     }
 
-    @Test
-    public void player2ShouldWinForDiagonalWithShowDialogTrue() {
-        TicTacToeConstants.type = true;
-        TicTacToeConstants.showDialog = true;
-        player2WonActions();
-        ticTacToeController.actionPerformed(actionEvent);
-
-        assertEquals(TicTacToeConstants.PLAYER2_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
-        ticTacToeController.setVisible(false);
-        ticTacToeController.dispose();
-    }
 
     @Test
     public void testItemStateChanged() {
@@ -289,17 +237,6 @@ public class TicTacToeControllerTest {
         ticTacToeController.actionPerformed(actionEvent);
         actionEvent.setSource(TicTacToeConstants.positions[8]);
         ticTacToeController.actionPerformed(actionEvent);
-    }
-
-    @Test
-    public void playWithComputerAndYouWonShowDialog() {
-        TicTacToeConstants.type = false;
-        TicTacToeConstants.showDialog = true;
-        playWithComputerEvents();
-
-        assertEquals(TicTacToeConstants.YOU_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
-        ticTacToeController.setVisible(false);
-        ticTacToeController.dispose();
     }
 
 }
