@@ -2,6 +2,7 @@ package com.tcs.fortis.controller;
 
 import com.tcs.fortis.constants.TicTacToeConstants;
 import com.tcs.fortis.models.TicTacToeResponse;
+import com.tcs.fortis.service.TicTacToeService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ public class TicTacToeController extends JFrame implements ItemListener, ActionL
     private int rowIndex, columnIndex;
     public Checkbox playWithComputer, playWithFriend;
     public JButton resetThePlay;
-
+    private static TicTacToeService service = new TicTacToeService();
     TicTacToeResponse ticTacToeResponse = new TicTacToeResponse();
 
 
@@ -78,7 +79,16 @@ public class TicTacToeController extends JFrame implements ItemListener, ActionL
     }
 
     public void itemStateChanged(ItemEvent e) {
-
+        if (playWithComputer.getState()) {
+            TicTacToeConstants.type = false;
+        } else if (playWithFriend.getState()) {
+            TicTacToeConstants.type = true;
+        }
+        remove(playWithComputer);
+        remove(playWithFriend);
+        repaint(TicTacToeConstants.ZERO, TicTacToeConstants.ZERO, TicTacToeConstants.THREE_THIRTY,
+                TicTacToeConstants.FOUR_FIFTY);
+        showButton();
     }
 
     public void actionPerformed(ActionEvent e) {
