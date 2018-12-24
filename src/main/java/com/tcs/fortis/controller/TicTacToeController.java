@@ -52,6 +52,29 @@ public class TicTacToeController extends JFrame implements ItemListener, ActionL
 
 
     public TicTacToeController() {
+        super(TicTacToeConstants.TIC_TAC_TOE);
+        CheckboxGroup checkboxGroup = new CheckboxGroup();
+        playWithComputer = new Checkbox(TicTacToeConstants.COMPUTER, checkboxGroup, false);
+        playWithFriend = new Checkbox(TicTacToeConstants.FRIEND, checkboxGroup, false);
+        playWithComputer.setBounds(TicTacToeConstants.ONE_TWENTY, TicTacToeConstants.EIGHTY,
+                TicTacToeConstants.HUNDRED, TicTacToeConstants.FORTY);
+        playWithFriend.setBounds(TicTacToeConstants.ONE_TWENTY, TicTacToeConstants.ONE_FIFTY,
+                TicTacToeConstants.HUNDRED, TicTacToeConstants.FORTY);
+        add(playWithComputer);
+        add(playWithFriend);
+        playWithComputer.addItemListener(this);
+        playWithFriend.addItemListener(this);
+        TicTacToeConstants.state = true;
+        TicTacToeConstants.type = true;
+        TicTacToeConstants.set = true;
+        for (int row = TicTacToeConstants.ZERO; row <= TicTacToeConstants.EIGHT; row++) {
+            TicTacToeConstants.playedPosition[row] = false;
+        }
+        setLayout(null);
+        setSize(TicTacToeConstants.THREE_THIRTY, TicTacToeConstants.FOUR_FIFTY);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
     }
 
     public void itemStateChanged(ItemEvent e) {
