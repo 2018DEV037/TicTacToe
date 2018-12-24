@@ -177,4 +177,69 @@ public class TicTacToeControllerTest {
         ticTacToeController.dispose();
     }
 
+    @Test
+    public void playerShouldWinForDiagonal() {
+
+        TicTacToeConstants.showDialog = false;
+        playerOneDiagonalEvents();
+
+        assertEquals(TicTacToeConstants.PLAYER1_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
+    }
+
+    @Test
+    public void playerShouldWinForDiagonalWithShowDialogTrue() {
+
+        TicTacToeConstants.showDialog = true;
+        playerOneDiagonalEvents();
+
+        assertEquals(TicTacToeConstants.PLAYER1_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
+    }
+
+    private void playerOneDiagonalEvents() {
+        actionEvent.setSource(TicTacToeConstants.positions[0]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[2]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[4]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[5]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[8]);
+        ticTacToeController.actionPerformed(actionEvent);
+    }
+
+    @Test
+    public void player2ShouldWinForDiagonal() {
+        TicTacToeConstants.type = true;
+        TicTacToeConstants.showDialog = false;
+        player2WonActions();
+        ticTacToeController.actionPerformed(actionEvent);
+
+        assertEquals(TicTacToeConstants.PLAYER2_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
+    }
+
+    private void player2WonActions() {
+        actionEvent.setSource(TicTacToeConstants.positions[0]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[1]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[3]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[6]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[4]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[7]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[2]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[8]);
+    }
+
 }
