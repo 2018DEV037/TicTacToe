@@ -16,13 +16,12 @@ public class TicTacToeController extends JFrame implements ItemListener, ActionL
      *
      */
     private static final long serialVersionUID = 1L;
+    private static TicTacToeService service = new TicTacToeService();
+    TicTacToeResponse ticTacToeResponse = new TicTacToeResponse();
 
     private int rowIndex, columnIndex;
     public Checkbox playWithComputer, playWithFriend;
     public JButton resetThePlay;
-    private static TicTacToeService service = new TicTacToeService();
-    TicTacToeResponse ticTacToeResponse = new TicTacToeResponse();
-
 
     public void showButton() {
         int x_coordinate = TicTacToeConstants.TEN;
@@ -51,12 +50,11 @@ public class TicTacToeController extends JFrame implements ItemListener, ActionL
 
     }
 
-
     public TicTacToeController() {
         super(TicTacToeConstants.TIC_TAC_TOE);
-        CheckboxGroup checkboxGroup = new CheckboxGroup();
-        playWithComputer = new Checkbox(TicTacToeConstants.COMPUTER, checkboxGroup, false);
-        playWithFriend = new Checkbox(TicTacToeConstants.FRIEND, checkboxGroup, false);
+        CheckboxGroup cbg = new CheckboxGroup();
+        playWithComputer = new Checkbox(TicTacToeConstants.COMPUTER, cbg, false);
+        playWithFriend = new Checkbox(TicTacToeConstants.FRIEND, cbg, false);
         playWithComputer.setBounds(TicTacToeConstants.ONE_TWENTY, TicTacToeConstants.EIGHTY,
                 TicTacToeConstants.HUNDRED, TicTacToeConstants.FORTY);
         playWithFriend.setBounds(TicTacToeConstants.ONE_TWENTY, TicTacToeConstants.ONE_FIFTY,
@@ -75,7 +73,6 @@ public class TicTacToeController extends JFrame implements ItemListener, ActionL
         setSize(TicTacToeConstants.THREE_THIRTY, TicTacToeConstants.FOUR_FIFTY);
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
     }
 
     public void itemStateChanged(ItemEvent e) {
@@ -92,6 +89,147 @@ public class TicTacToeController extends JFrame implements ItemListener, ActionL
     }
 
     public void actionPerformed(ActionEvent e) {
+        if (TicTacToeConstants.type)// logicfriend
+        {
+            if (e.getSource() == resetThePlay) {
+                for (rowIndex = TicTacToeConstants.ZERO; rowIndex <= TicTacToeConstants.EIGHT; rowIndex++) {
+                    TicTacToeConstants.positions[rowIndex].setText(TicTacToeConstants.EMPTY_STRING);
+                    TicTacToeConstants.state = true;
+                }
+            } else {
+                for (rowIndex = TicTacToeConstants.ZERO; rowIndex <= TicTacToeConstants.EIGHT; rowIndex++) {
+                    if (e.getSource() == TicTacToeConstants.positions[rowIndex]) {
+                        if (!service.populatePlayerKeyInScreen(rowIndex))
+                            break;
+                    }
+                }
+            }
+        } else if (!TicTacToeConstants.type) { // complogic
+            if (e.getSource() == resetThePlay) {
+                for (rowIndex = TicTacToeConstants.ZERO; rowIndex <= TicTacToeConstants.EIGHT; rowIndex++) {
+                    TicTacToeConstants.positions[rowIndex].setText(TicTacToeConstants.EMPTY_STRING);
+                }
+                for (rowIndex = TicTacToeConstants.ZERO; rowIndex <= TicTacToeConstants.SEVEN; rowIndex++)
+                    for (columnIndex = TicTacToeConstants.ZERO; columnIndex <= TicTacToeConstants.FOUR; columnIndex++)
+                        TicTacToeConstants.ticTacToeCoordinates[rowIndex][columnIndex]
+                                = TicTacToeConstants.ticTacToeSuccessCoordinatesBackUp[rowIndex][columnIndex];
+            } else {
+                for (rowIndex = TicTacToeConstants.ZERO; rowIndex <= TicTacToeConstants.EIGHT; rowIndex++) {
+                    if (e.getSource() == TicTacToeConstants.positions[rowIndex]) {
+                        if (TicTacToeConstants.positions[rowIndex].getText().equals(TicTacToeConstants.playerOneKey)
+                                || TicTacToeConstants.positions[rowIndex].getText()
+                                .equals(TicTacToeConstants.playerTwoKey)) {
+                            break; // don't overwrite the jbutton label
+                        }
+                        if (TicTacToeConstants.positions[rowIndex].getText().equals(TicTacToeConstants.EMPTY_STRING)) {
+                            TicTacToeConstants.positions[rowIndex].setText(TicTacToeConstants.playerOneKey);
+                            TicTacToeConstants.playedPosition[rowIndex] = true;
+                            if (TicTacToeConstants.positions[TicTacToeConstants.FOUR].getText()
+                                    .equals(TicTacToeConstants.EMPTY_STRING)) {
+                                TicTacToeConstants.positions[TicTacToeConstants.FOUR]
+                                        .setText(TicTacToeConstants.playerTwoKey);
+                                TicTacToeConstants.playedPosition[TicTacToeConstants.FOUR] = true;
+                                service.validateCoordinate(TicTacToeConstants.FIVE);
+                            } else {
+                                service.computerPlayLogic(rowIndex);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
+        if (service.checkWhetherMatchDrawOrNot()) {
+            ticTacToeResponse.setResponse(TicTacToeConstants.MATCH_TIE);
+            if (TicTacToeConstants.showDialog) {
+                JOptionPane.showMessageDialog(this, ticTacToeResponse.getResponse());
+            }
+            service.resetBoard();
+            TicTacToeConstants.state = true;
+        }
+
+        for (rowIndex = TicTacToeConstants.ZERO; rowIndex <= TicTacToeConstants.SEVEN; rowIndex++) {
+            String icon1Str = TicTacToeConstants.positions[
+                    (TicTacToeConstants.ticTacToeCoordinates[rowIndex][TicTacToeConstants.ONE]
+                            - TicTacToeConstants.ONE)].getText();
+            String icon2Str = TicTacToeConstants.positions[
+                    (TicTacToeConstants.ticTacToeCoordinates[rowIndex][TicTacToeConstants.TWO]
+                            - TicTacToeConstants.ONE)].getText();
+            String icon3Str = TicTacToeConstants.positions[
+                    (TicTacToeConstants.ticTacToeCoordinates[rowIndex][TicTacToeConstants.THREE]
+                            - TicTacToeConstants.ONE)].getText();
+            if ((icon1Str.equals(icon2Str)) && (icon2Str.equals(icon3Str))
+                    && (!TicTacToeConstants.EMPTY_STRING.equals(icon1Str))) {
+                if (TicTacToeConstants.playerTwoKey.equals(icon1Str)) {
+                    TicTacToeConstants.positions[(TicTacToeConstants.ticTacToeCoordinates[rowIndex]
+                            [TicTacToeConstants.ONE]
+                            - TicTacToeConstants.ONE)].setText(TicTacToeConstants.playerTwoKey);
+                    TicTacToeConstants.positions[(TicTacToeConstants.ticTacToeCoordinates[rowIndex]
+                            [TicTacToeConstants.ONE]
+                            - TicTacToeConstants.ONE)].setFont(TicTacToeConstants.fontBold);
+                    TicTacToeConstants.positions[(TicTacToeConstants.ticTacToeCoordinates[rowIndex]
+                            [TicTacToeConstants.TWO]
+                            - TicTacToeConstants.ONE)].setText(TicTacToeConstants.playerTwoKey);
+                    TicTacToeConstants.positions[(TicTacToeConstants.ticTacToeCoordinates[rowIndex]
+                            [TicTacToeConstants.TWO]
+                            - TicTacToeConstants.ONE)].setFont(TicTacToeConstants.fontBold);
+                    TicTacToeConstants.positions[(TicTacToeConstants.ticTacToeCoordinates[rowIndex]
+                            [TicTacToeConstants.THREE]
+                            - TicTacToeConstants.ONE)].setText(TicTacToeConstants.playerTwoKey);
+                    TicTacToeConstants.positions[(TicTacToeConstants.ticTacToeCoordinates[rowIndex]
+                            [TicTacToeConstants.THREE]
+                            - TicTacToeConstants.ONE)].setFont(TicTacToeConstants.fontBold);
+                    if (TicTacToeConstants.type) {
+                        ticTacToeResponse.setResponse(TicTacToeConstants.PLAYER2_WON_CLICK_RESET);
+                        if (TicTacToeConstants.showDialog) {
+                            JOptionPane.showMessageDialog(this, ticTacToeResponse.getResponse());
+                        }
+                    } else {
+                        ticTacToeResponse.setResponse(TicTacToeConstants.COMPUTER_WON_CLICK_RESET);
+                        if (TicTacToeConstants.showDialog) {
+                            JOptionPane.showMessageDialog(this, ticTacToeResponse.getResponse());
+                        }
+                    }
+                    service.resetBoard();
+                    service.resetButtonFont();
+                    TicTacToeConstants.state = true;
+                    break;
+                } else if (TicTacToeConstants.playerOneKey.equals(icon2Str)) {
+                    TicTacToeConstants.positions[(TicTacToeConstants.ticTacToeCoordinates[rowIndex]
+                            [TicTacToeConstants.ONE]
+                            - TicTacToeConstants.ONE)].setText(TicTacToeConstants.playerOneKey);
+                    TicTacToeConstants.positions[(TicTacToeConstants.ticTacToeCoordinates[rowIndex]
+                            [TicTacToeConstants.ONE]
+                            - TicTacToeConstants.ONE)].setFont(TicTacToeConstants.fontBold);
+                    TicTacToeConstants.positions[(TicTacToeConstants.ticTacToeCoordinates[rowIndex]
+                            [TicTacToeConstants.TWO]
+                            - TicTacToeConstants.ONE)].setText(TicTacToeConstants.playerOneKey);
+                    TicTacToeConstants.positions[(TicTacToeConstants.ticTacToeCoordinates[rowIndex]
+                            [TicTacToeConstants.TWO]
+                            - TicTacToeConstants.ONE)].setFont(TicTacToeConstants.fontBold);
+                    TicTacToeConstants.positions[(TicTacToeConstants.ticTacToeCoordinates[rowIndex]
+                            [TicTacToeConstants.THREE]
+                            - TicTacToeConstants.ONE)].setText(TicTacToeConstants.playerOneKey);
+                    TicTacToeConstants.positions[(TicTacToeConstants.ticTacToeCoordinates[rowIndex]
+                            [TicTacToeConstants.THREE]
+                            - TicTacToeConstants.ONE)].setFont(TicTacToeConstants.fontBold);
+                    if (!TicTacToeConstants.type) {
+                        ticTacToeResponse.setResponse(TicTacToeConstants.YOU_WON_CLICK_RESET);
+                        if (TicTacToeConstants.showDialog) {
+                            JOptionPane.showMessageDialog(this, ticTacToeResponse.getResponse());
+                        }
+                    } else {
+                        ticTacToeResponse.setResponse(TicTacToeConstants.PLAYER1_WON_CLICK_RESET);
+                        if (TicTacToeConstants.showDialog) {
+                            JOptionPane.showMessageDialog(this, ticTacToeResponse.getResponse());
+                        }
+                    }
+                    service.resetBoard();
+                    service.resetButtonFont();
+                    TicTacToeConstants.state = true;
+                    break;
+                }
+            }
+        }
     }
 }

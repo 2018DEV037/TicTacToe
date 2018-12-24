@@ -3,7 +3,9 @@ package com.tcs.fortis.controller;
 import com.tcs.fortis.constants.TicTacToeConstants;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
@@ -258,8 +260,8 @@ public class TicTacToeControllerTest {
 
     @Test
     public void testItemStateChanged() {
-        CheckboxGroup checkboxGroup = new CheckboxGroup();
-        Checkbox checkbox1 = new Checkbox("vs computer", checkboxGroup, true);
+        CheckboxGroup cbg = new CheckboxGroup();
+        Checkbox checkbox1 = new Checkbox("vs computer", cbg, true);
         checkbox1.setBounds(120, 80, 100, 40);
         ticTacToeController.itemStateChanged(new ItemEvent(checkbox1, 1, null, ItemEvent.SELECTED));
         assertTrue(TicTacToeConstants.type);

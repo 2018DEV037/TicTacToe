@@ -15,6 +15,11 @@ public class TicTacToeServiceTest {
     }
 
     @Test
+    public void testCheckValMethod() {
+        ticTacToeService.validateCoordinate(5);
+    }
+
+    @Test
     public void testResetMethodToResetTheBoard() {
         ticTacToeService.resetBoard();
         Assert.assertEquals(TicTacToeConstants.positions[TicTacToeConstants.ONE].getText(), TicTacToeConstants.EMPTY_STRING);
