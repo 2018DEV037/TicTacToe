@@ -1,6 +1,7 @@
 package com.tcs.fortis.controller;
 
 import com.tcs.fortis.constants.TicTacToeConstants;
+import com.tcs.fortis.models.TicTacToeResponse;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,9 @@ public class TicTacToeController extends JFrame implements ItemListener, ActionL
     private int rowIndex, columnIndex;
     public Checkbox playWithComputer, playWithFriend;
     public JButton resetThePlay;
+
+    TicTacToeResponse ticTacToeResponse = new TicTacToeResponse();
+
 
     public void showButton() {
         int x_coordinate = TicTacToeConstants.TEN;

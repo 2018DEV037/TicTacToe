@@ -6,8 +6,7 @@ import org.junit.Test;
 
 import java.awt.event.ActionEvent;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 public class TicTacToeControllerTest {
 
@@ -38,4 +37,144 @@ public class TicTacToeControllerTest {
         ticTacToeController.actionPerformed(actionEvent);
         assertNotEquals("O", TicTacToeConstants.positions[0].getText());
     }
+
+    @Test
+    public void playerShouldNotPlayinPlayedPosition() {
+        actionEvent.setSource(TicTacToeConstants.positions[0]);
+        assertFalse(TicTacToeConstants.playedPosition[0]);
+        ticTacToeController.actionPerformed(actionEvent);
+        assertTrue(TicTacToeConstants.playedPosition[0]);
+    }
+
+    @Test
+    public void playerShouldGetTieIfBoardIsFullWithNoWin() {
+
+
+        TicTacToeConstants.showDialog = false;
+        tieGameEvents();
+        ticTacToeController.actionPerformed(actionEvent);
+
+        assertEquals(TicTacToeConstants.MATCH_TIE, ticTacToeController.ticTacToeResponse.getResponse());
+
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
+    }
+
+    @Test
+    public void playerShouldGetTieIfBoardIsFullWithNoWinAndReset() {
+
+
+        TicTacToeConstants.showDialog = false;
+        tieGameEvents();
+        ticTacToeController.actionPerformed(actionEvent);
+
+        assertEquals(TicTacToeConstants.MATCH_TIE, ticTacToeController.ticTacToeResponse.getResponse());
+        ticTacToeController.resetThePlay.doClick();
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
+    }
+
+    @Test
+    public void playerShouldGetTieIfBoardIsFullWithNoWinAndResetWithTypeFalse() {
+
+        TicTacToeConstants.type = false;
+        TicTacToeConstants.showDialog = false;
+        tieGameEvents();
+        ticTacToeController.actionPerformed(actionEvent);
+
+        assertEquals(TicTacToeConstants.COMPUTER_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
+        ticTacToeController.resetThePlay.doClick();
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
+    }
+
+    @Test
+    public void playerShouldGetTieIfBoardIsFullWithNoWinAndResetWithTypeTrue() {
+
+        TicTacToeConstants.type = false;
+        TicTacToeConstants.showDialog = true;
+        tieGameEvents();
+        ticTacToeController.actionPerformed(actionEvent);
+
+        assertEquals(TicTacToeConstants.COMPUTER_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
+        ticTacToeController.resetThePlay.doClick();
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
+    }
+
+
+    private void tieGameEvents() {
+        actionEvent.setSource(TicTacToeConstants.positions[0]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[1]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[3]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[5]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[2]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[4]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[8]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[6]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[7]);
+    }
+
+    @Test
+    public void playerShouldGetTieIfBoardIsFullWithNoWinWithShowDialogTrue() {
+
+
+        TicTacToeConstants.showDialog = true;
+        tieGameEvents();
+        ticTacToeController.actionPerformed(actionEvent);
+
+        assertEquals(TicTacToeConstants.MATCH_TIE, ticTacToeController.ticTacToeResponse.getResponse());
+
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
+    }
+
+    @Test
+    public void playerShouldWinForHorizontal() {
+        TicTacToeConstants.showDialog = false;
+        actionEvent.setSource(TicTacToeConstants.positions[0]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[7]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[1]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[5]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[2]);
+        ticTacToeController.actionPerformed(actionEvent);
+        ticTacToeController.actionPerformed(actionEvent);
+
+        assertEquals(TicTacToeConstants.PLAYER1_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
+    }
+
+    @Test
+    public void playerShouldWinForVertical() {
+
+        TicTacToeConstants.showDialog = false;
+        actionEvent.setSource(TicTacToeConstants.positions[0]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[2]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[3]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[5]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[6]);
+        ticTacToeController.actionPerformed(actionEvent);
+
+        assertEquals(TicTacToeConstants.PLAYER1_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
+    }
+
 }

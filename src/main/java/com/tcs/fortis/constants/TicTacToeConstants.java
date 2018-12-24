@@ -36,8 +36,23 @@ public class TicTacToeConstants {
     public static final int TWO = 2;
     public static final int ELEVEN = 11;
 
+    public static String playerOneKey = "X";
+    public static String playerTwoKey = "O";
+
+    public static int ticTacToeCoordinates[][] = {{10, 1, 2, 3, 11}, {10, 1, 4, 7, 11},
+            {10, 1, 5, 9, 11}, {10, 2, 5, 8, 11},
+            {10, 3, 5, 7, 11}, {10, 3, 6, 9, 11}, {10, 4, 5, 6, 11}, {10, 7, 8, 9, 11}};
+
+    public static int ticTacToeSuccessCoordinatesBackUp[][] = {{10, 1, 2, 3, 11}, {10, 1, 4, 7, 11},
+            {10, 1, 5, 9, 11}, {10, 2, 5, 8, 11},
+            {10, 3, 5, 7, 11}, {10, 3, 6, 9, 11}, {10, 4, 5, 6, 11}, {10, 7, 8, 9, 11}};
+
+    public static Font fontPlain = new Font("Serif", Font.PLAIN, 14);
+    public static Font fontBold = new Font("Serif", Font.BOLD, 14);
 
     public static JButton positions[] = new JButton[9];
 
-    public static Font fontPlain = new Font("Serif", Font.PLAIN, 14);
+    public static boolean state, type, set, showDialog = true;
+
+    public static boolean playedPosition[] = new boolean[9];
 }
