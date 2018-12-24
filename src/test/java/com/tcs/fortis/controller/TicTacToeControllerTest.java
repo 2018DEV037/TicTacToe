@@ -18,6 +18,8 @@ public class TicTacToeControllerTest {
     @Before
     public void initialize() {
         ticTacToeController = new TicTacToeController();
+        new TicTacToeConstants();
+        ticTacToeController.showButton();
         int uniqueId = (int) System.currentTimeMillis();
         String commandName = "";
         actionEvent = new ActionEvent(this, uniqueId, commandName);
@@ -36,5 +38,4 @@ public class TicTacToeControllerTest {
         ticTacToeController.actionPerformed(actionEvent);
         assertNotEquals("O", TicTacToeConstants.positions[0].getText());
     }
-
 }
