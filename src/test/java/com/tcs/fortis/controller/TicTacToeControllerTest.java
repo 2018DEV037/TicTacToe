@@ -4,7 +4,9 @@ import com.tcs.fortis.constants.TicTacToeConstants;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
 
 import static org.junit.Assert.*;
 
@@ -240,6 +242,62 @@ public class TicTacToeControllerTest {
         actionEvent.setSource(TicTacToeConstants.positions[2]);
         ticTacToeController.actionPerformed(actionEvent);
         actionEvent.setSource(TicTacToeConstants.positions[8]);
+    }
+
+    @Test
+    public void player2ShouldWinForDiagonalWithShowDialogTrue() {
+        TicTacToeConstants.type = true;
+        TicTacToeConstants.showDialog = true;
+        player2WonActions();
+        ticTacToeController.actionPerformed(actionEvent);
+
+        assertEquals(TicTacToeConstants.PLAYER2_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
+    }
+
+    @Test
+    public void testItemStateChanged() {
+        CheckboxGroup checkboxGroup = new CheckboxGroup();
+        Checkbox checkbox1 = new Checkbox("vs computer", checkboxGroup, true);
+        checkbox1.setBounds(120, 80, 100, 40);
+        ticTacToeController.itemStateChanged(new ItemEvent(checkbox1, 1, null, ItemEvent.SELECTED));
+        assertTrue(TicTacToeConstants.type);
+    }
+
+    @Test
+    public void playWithComputerAndYouWon() {
+        TicTacToeConstants.type = false;
+        TicTacToeConstants.showDialog = false;
+        playWithComputerEvents();
+
+        assertEquals(TicTacToeConstants.YOU_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
+    }
+
+    private void playWithComputerEvents() {
+        actionEvent.setSource(TicTacToeConstants.positions[6]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[4]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[7]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[2]);
+        ticTacToeController.actionPerformed(actionEvent);
+        actionEvent.setSource(TicTacToeConstants.positions[8]);
+        ticTacToeController.actionPerformed(actionEvent);
+    }
+
+    @Test
+    public void playWithComputerAndYouWonShowDialog() {
+        TicTacToeConstants.type = false;
+        TicTacToeConstants.showDialog = true;
+        playWithComputerEvents();
+
+        assertEquals(TicTacToeConstants.YOU_WON_CLICK_RESET, ticTacToeController.ticTacToeResponse.getResponse());
+        ticTacToeController.setVisible(false);
+        ticTacToeController.dispose();
     }
 
 }
